@@ -18,6 +18,7 @@ public class CustomerDao {
 		}
 	public List<CustomerModel> getAll(){
 		return repository.findAll();
+		
 		}
 
 	

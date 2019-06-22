@@ -1,6 +1,7 @@
 package com.customer.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,12 @@ public class OrderService {
 	public OrderModel add(OrderModel add) {
 		return dao.create(add);
 		}
-	public List<OrderModel> findAll(){
+	public List<OrderModel> getAll(){
 		return dao.getAll();
 		}
-
+	public Optional<OrderModel> getById(Long id){
+		return dao.findById(id);
+    	
+    }
 	
 }

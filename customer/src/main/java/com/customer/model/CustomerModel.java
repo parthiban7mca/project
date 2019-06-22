@@ -1,15 +1,16 @@
 package com.customer.model;
 
-import java.util.HashSet;
-import java.util.Set;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,19 +21,21 @@ public class CustomerModel {
 	private Long id;
 	private String customerName;
 	private String customerAddress;
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_id")
-	private Set<OrderModel>ordermodel=new HashSet<>();
-	public Set<OrderModel> getOrdermodel() {
+	
+	@ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+	@JoinTable(name="customerorder",joinColumns= {@JoinColumn(name ="customer_id")},inverseJoinColumns= {@JoinColumn(name = "order_id")})
+	private List<OrderModel>ordermodel;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public List<OrderModel> getOrdermodel() {
 		return ordermodel;
 	}
 
-	public void setOrdermodel(Set<OrderModel> ordermodel) {
+	public void setOrdermodel(List<OrderModel> ordermodel) {
 		this.ordermodel = ordermodel;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public void setId(Long id) {
@@ -60,5 +63,9 @@ public class CustomerModel {
 		return "CustomerModel [id=" + id + ", customerName=" + customerName + ", customerAddress=" + customerAddress
 				+ ", ordermodel=" + ordermodel + "]";
 	}
+	
+	
+
+	
 
 }

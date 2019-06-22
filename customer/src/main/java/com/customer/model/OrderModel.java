@@ -1,14 +1,15 @@
 package com.customer.model;
 
-//import javax.persistence.CascadeType;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-//import javax.persistence.OneToOne;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,27 +20,29 @@ public class OrderModel {
 	private Long id;
 	private String customerName;
 	private Long orderValue;
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="customer_id", insertable=false, updatable=false, 
-			nullable=true)
-private CustomerModel customermodel;
-	public CustomerModel getCustomermodel() {
+	@ManyToMany(mappedBy="ordermodel",cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
+	private Set<CustomerModel>cutomermodel = new HashSet<>();
+   			
+	//private CustomerModel customermodel;
+	public Set<CustomerModel> getCutomermodel() {
+		return cutomermodel;
+	}
+	public void setCutomermodel(Set<CustomerModel> cutomermodel) {
+		this.cutomermodel = cutomermodel;
+	}
+	/*public CustomerModel getCustomermodel() {
 		return customermodel;
 	}
 	public void setCustomermodel(CustomerModel customermodel) {
 		this.customermodel = customermodel;
-	}
+	}*/
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@Override
-	public String toString() {
-		return "OrderModel [id=" + id + ", customerName=" + customerName + ", orderValue=" + orderValue
-				+ ", customermodel=" + customermodel + "]";
-	}
+	
 	public String getCustomerName() {
 		return customerName;
 	}
@@ -53,4 +56,12 @@ private CustomerModel customermodel;
 	public void setOrderValue(Long orderValue) {
 		this.orderValue = orderValue;
 	}
+	@Override
+	public String toString() {
+		return "OrderModel [id=" + id + ", customerName=" + customerName + ", orderValue=" + orderValue
+				+ ", cutomermodel=" + cutomermodel + "]";
+	}
+	
+	
+	
 }

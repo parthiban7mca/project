@@ -1,6 +1,7 @@
 package com.customer.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,5 +21,8 @@ public OrderModel create(OrderModel add) {
 public List<OrderModel> getAll(){
 	return repository.findAll();
 	}
-
+public Optional<OrderModel> findById(Long id){
+	return repository.findById(id);
+	
+}
 }
